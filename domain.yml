@@ -1,0 +1,97 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet
+- info_cita
+- ask_horario:
+    use_entities:
+    - estacion
+- ask_weather
+- out-of-scope
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- out_of_scope
+- stop
+entities:
+- LOC
+- MISC
+- ORG
+- dia
+- estacion
+- time
+- turno
+slots:
+  estacion:
+    type: text
+    influence_conversation: true
+  turno:
+    type: categorical
+    influence_conversation: true
+    values:
+    - mañana
+    - tarde
+  time:
+    type: text
+    influence_conversation: true
+  requested_slot:
+    type: text
+    influence_conversation: false
+responses:
+  utter_greet:
+  - text: ¿Hola. Soy tu asistente virtual para gestionar tu ITV. que necesitas saber?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Aqui tengo algo para animarte:'
+  utter_did_that_help:
+  - text: ¿Te ha ayudado?
+  utter_happy:
+  - text: muy bien, sigue asi!
+  utter_goodbye:
+  - text: Adios
+  utter_iamabot:
+  - text: soy un bot, creado por Rasa.
+  utter_ask_cita_form_estacion:
+  - text: sobre que estación quieres la información.
+  utter_ask_cita_form_time:
+  - text: para que día quieres la información en la estación?
+  utter_ask_cita_form_turno:
+  - text: horario de mañana o de tarde?
+  utter_submit:
+  - text: la informacion es {estacion} y {time}
+  utter_cita_slot:
+  - text: la informacion es {estacion} y {time}
+  utter_horario_submit:
+  - text: ¿Te ha servido de ayuda?
+  utter_ask_continue:
+  - text: "¿está seguro que quiere cancelar el proceso de cita?"
+actions:
+- action_weather
+- utter_cita_slot
+- utter_greet
+- utter_horario_submit
+- utter_submit
+- validate_cita_form
+- validate_horario_form
+forms:
+  cita_form:
+    required_slots:
+      estacion:
+      - entity: estacion
+        type: from_entity
+      time:
+      - entity: time
+        type: from_entity
+      turno:
+      - entity: turno
+        type: from_entity
+  horario_form:
+    required_slots:
+      estacion:
+      - entity: estacion
+        type: from_entity
