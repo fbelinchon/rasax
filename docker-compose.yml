@@ -171,7 +171,6 @@ services:
       POSTGRESQL_DATABASE: "${DB_DATABASE:-rasa}"
     volumes:
       - ./db:/bitnami/postgresql
-
   rabbit:
     restart: always
     image: "bitnami/rabbitmq:3.8.17"
